@@ -5,10 +5,7 @@ import torch.nn as nn
 import bitsandbytes as bnb
 from transformers import AutoTokenizer, AutoConfig, AutoModelForCausalLM
 
-model = AutoModelForCausalLM.from_pretrained(
-    "facebook/opt-6.7b", 
-    load_in_8bit=True, 
-    device_map='auto',
-)
+generate_text = pipeline(model="aisquared/dlite-v2-1_5b", torch_dtype=torch.bfloat16, trust_remote_code=True, device_map="auto")
 
-tokenizer = AutoTokenizer.from_pretrained("facebook/opt-6.7b")
+res = generate_text("Who was George Washington?")
+print(res)
